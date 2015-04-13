@@ -59,7 +59,9 @@ var fetchPlaylist = function() {
 		  .then(function(data) {
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
+		   	  console.log('Track Date' + date)
 		   	  if((lastDate === undefined) || (date > lastDate)) {
+		   	  	console.log(data.tracks.items[i].track.name)
 		   	  	post(data.name, 
 		   	  		data.external_urls.spotify, 
 		   	  		data.tracks.items[i].added_by ? data.tracks.items[i].added_by.id : "Unknown",
