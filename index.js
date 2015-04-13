@@ -80,7 +80,7 @@ var fetchPlaylist = function() {
 		}
 		console.log("Last fetched at:", lastDate);
 		console.log("Old offset:", reqoffset);
-		spotifyApi.getPlaylistTracks(spotifyUser, spotifyPlaylistId, {offset: reqoffset, fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
+		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, {offset: reqoffset, fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
 		  .then(function(data) {
 
 		  	console.log("New offset:", data.total);
@@ -88,7 +88,7 @@ var fetchPlaylist = function() {
 
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
-		   	  if((lastDate === undefined) || (date > lastDate)) {
+		   	  if((!lastDate) || (date > lastDate)) {
 
 		   	  	post(data.name, 
 		   	  		data.external_urls.spotify, 
