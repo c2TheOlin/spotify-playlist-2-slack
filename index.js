@@ -59,7 +59,6 @@ var fetchPlaylist = function() {
 		  .then(function(data) {
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
-		   	  console.log('Track' + data.tracks.items[i].track.name + 'Date' + date)
 		   	  if((lastDate === undefined) || (date > lastDate)) {
 
 		   	  	post(data.name, 
