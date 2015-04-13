@@ -38,10 +38,26 @@ var fetchPlaylist = function() {
 		client.get("lastDate", function(err, value) {
 			if (!err) {
 				lastDate = new Date(value);
+				if(!lastDate)
+				{
+					lastDate = new Date(fs.readFileSync('./last_date.txt').toString() );
+				}
 			}
 		});
 		writeLastDate = function(date) {
 			client.set('lastDate', date);
+		};
+		client.get("reqoffset", function(err, value) {
+			if (!err) {
+				reqoffset = parseInt(value, 10);
+				if(!reqoffset)
+				{
+					reqoffset = parseInt(fs.readFileSync('./offset.txt').toString(), 10);
+				}
+			}
+		});
+		writeLastDate = function(offset) {
+			client.set('reqoffset', offset);
 		};
 	} else {
 		lastDate = new Date(fs.readFileSync('./last_date.txt').toString() );
