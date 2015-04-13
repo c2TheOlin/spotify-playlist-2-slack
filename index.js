@@ -42,8 +42,10 @@ var fetchPlaylist = function() {
 				{
 					lastDate = new Date()
 				}	
-
-				lastDate = new Date(value);
+				else
+				{
+					lastDate = new Date(value);
+				}
 			}
 		});
 		writeLastDate = function(date) {
