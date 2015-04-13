@@ -38,11 +38,12 @@ var fetchPlaylist = function() {
     	});
 		client.get("lastDate", function(err, value) {
 			if (!err) {
-				lastDate = new Date(value);
-				if(!lastDate)
+				if(!value)
 				{
-					lastDate = new Date(fs.readFileSync('./last_date.txt').toString() );
-				}
+					lastDate = new Date()
+				}	
+
+				lastDate = new Date(value);
 			}
 		});
 		writeLastDate = function(date) {
