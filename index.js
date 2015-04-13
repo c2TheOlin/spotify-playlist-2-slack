@@ -26,6 +26,7 @@ function grantClient() {
 var client;
 var fetchPlaylist = function() {
 	var lastDate;
+	var reqoffset;
 	var writeLastDate;
 	if (process.env.REDISTOGO_URL) {
 		var rtg   = require("url").parse(process.env.REDISTOGO_URL);
@@ -44,10 +45,13 @@ var fetchPlaylist = function() {
 		};
 	} else {
 		lastDate = new Date(fs.readFileSync('./last_date.txt').toString() );
+		reqoffset = parseInt(fs.readFileSync('./offset.txt').toString(), 10);
 		writeLastDate = function(date) {
 			fs.writeFile("./last_date.txt", date, function() {});
 		};
-
+		writeOffset = function(offset) {
+			fs.writeFile("./offset.txt", offset, function() {});
+		};
 	}
 
 	return function() {
@@ -55,8 +59,9 @@ var fetchPlaylist = function() {
 			return;
 		}
 		console.log("Last fetched at:", lastDate);
-		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, {fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify'})
+		spotifyApi.getPlaylistTracks(spotifyUser, spotifyPlaylistId, {offset: reqoffset, fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
 		  .then(function(data) {
+		   	writeOffset(data.offset);
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
 		   	  if((lastDate === undefined) || (date > lastDate)) {
