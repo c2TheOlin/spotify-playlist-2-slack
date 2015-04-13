@@ -59,10 +59,11 @@ var fetchPlaylist = function() {
 			return;
 		}
 		console.log("Last fetched at:", lastDate);
+		console.log("Old offset:", reqoffset);
 		spotifyApi.getPlaylistTracks(spotifyUser, spotifyPlaylistId, {offset: reqoffset, fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
 		  .then(function(data) {
 
-		  	console.log("List offset:", data.total);
+		  	console.log("New offset:", data.total);
 		   	writeOffset(data.total);
 
 		    for (var i in data.tracks.items) {
