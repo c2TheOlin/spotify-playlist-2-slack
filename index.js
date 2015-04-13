@@ -51,26 +51,10 @@ var fetchPlaylist = function() {
 		writeLastDate = function(date) {
 			client.set('lastDate', date);
 		};
-		client.get("reqoffset", function(err, value) {
-			if (!err) {
-				reqoffset = parseInt(value, 10);
-				if(!reqoffset)
-				{
-					reqoffset = parseInt(fs.readFileSync('./offset.txt').toString(), 10);
-				}
-			}
-		});
-		writeOffset = function(offset) {
-			client.set('reqoffset', offset);
-		};
 	} else {
 		lastDate = new Date(fs.readFileSync('./last_date.txt').toString() );
-		reqoffset = parseInt(fs.readFileSync('./offset.txt').toString(), 10);
 		writeLastDate = function(date) {
 			fs.writeFile("./last_date.txt", date, function() {});
-		};
-		writeOffset = function(offset) {
-			fs.writeFile("./offset.txt", offset, function() {});
 		};
 	}
 
@@ -79,12 +63,8 @@ var fetchPlaylist = function() {
 			return;
 		}
 		console.log("Last fetched at:", lastDate);
-		console.log("Old offset:", reqoffset);
-		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, {offset: reqoffset, fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
+		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, { fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
 		  .then(function(data) {
-
-		  	console.log("New offset:", data.total);
-		   	writeOffset(data.total);
 
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
