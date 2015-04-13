@@ -65,9 +65,6 @@ var fetchPlaylist = function() {
 		  	console.log("List offset:", data.total);
 		   	writeOffset(data.total);
 
-			console.log("List offset:", data.tracks.total);
-				writeOffset(data.tracks.total);
-
 		    for (var i in data.tracks.items) {
 		   	  var date = new Date(data.tracks.items[i].added_at);
 		   	  if((lastDate === undefined) || (date > lastDate)) {
