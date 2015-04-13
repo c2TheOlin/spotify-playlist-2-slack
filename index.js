@@ -56,7 +56,7 @@ var fetchPlaylist = function() {
 				}
 			}
 		});
-		writeLastDate = function(offset) {
+		writeOffset = function(offset) {
 			client.set('reqoffset', offset);
 		};
 	} else {
