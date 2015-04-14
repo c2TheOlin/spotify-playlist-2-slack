@@ -63,7 +63,7 @@ var fetchPlaylist = function() {
 			return;
 		}
 		console.log("Last fetched at:", lastDate);
-		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, { fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify,total'})
+		spotifyApi.getPlaylist(spotifyUser, spotifyPlaylistId, { fields: 'tracks.items(added_by.id,added_at,track(name,artists.name,album.name)),name,external_urls.spotify'})
 		  .then(function(data) {
 
 		    for (var i in data.tracks.items) {
